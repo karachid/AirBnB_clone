@@ -2,6 +2,7 @@
 """Defines a BaseModel class"""
 from datetime import datetime
 import uuid
+import models
 
 class BaseModel:
     """
@@ -29,7 +30,10 @@ class BaseModel:
             self.id = uuid.uuid4().hex
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-
+            k = f"{self.__class__.__name__}.{self.id}"
+            if k not in models.storage.all():
+                models.storage.all()[k] = self
+        
     def __str__(self):
         """
         Returns a string format of the object
@@ -40,14 +44,15 @@ class BaseModel:
         """
         Saves an instance
         """
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """
         Converts an object to a dictionary
         """
         obj_dict = self.__dict__.copy()
-
+        
         # Add __class__ key with the class name
         obj_dict['__class__'] = self.__class__.__name__
 
