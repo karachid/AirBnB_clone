@@ -30,10 +30,8 @@ class BaseModel:
             self.id = uuid.uuid4().hex
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            k = f"{self.__class__.__name__}.{self.id}"
-            if k not in models.storage.all():
-                models.storage.all()[k] = self
-        
+            models.storage.new(self)
+
     def __str__(self):
         """
         Returns a string format of the object

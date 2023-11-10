@@ -14,5 +14,13 @@
         "name": "My_First_Model",
         "my_number": 89,
         "__class__": "BaseModel"
+    },
+    "BaseModel.34e576eb9d1b4f8ab33715dccc077bff": {
+        "id": "34e576eb9d1b4f8ab33715dccc077bff",
+        "created_at": "2023-11-10T11:12:29.835644",
+        "updated_at": "2023-11-10T11:12:29.835651",
+        "name": "My_First_Model",
+        "my_number": 89,
+        "__class__": "BaseModel"
     }
 }
