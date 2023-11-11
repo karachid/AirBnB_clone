@@ -15,18 +15,17 @@ class BaseModel:
         """
         Initializes a new instance
         """
+        form = "%Y-%m-%dT%H:%M:%S.%f"
         if kwargs and len(kwargs) != 0:
             for k, v in kwargs.items():
                 if k == "id":
                     self.id = v
                 elif k == "created_at":
-                    self.created_at =
-                    datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                    self.created_at = datetime.strptime(v, form)
                 elif k == "my_number":
                     self.my_number = v
                 elif k == "updated_at":
-                    self.updated_at =
-                    datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                    self.updated_at = datetime.strptime(v, form)
                 elif k == "name":
                     self.name = v
         else:
