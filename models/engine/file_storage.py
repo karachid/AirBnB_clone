@@ -13,7 +13,12 @@ class FileStorage:
     __file_path = "file.json"
     __objects = dict()
     className = {'BaseModel': BaseModel,
-                 'User': User}
+                 'User': User,
+                 'City': City,
+                 'State': State,
+                 'Amenity': Amenity,
+                 'Place': Place,
+                 'Review': Review}
 
     def all(self):
         """ Returns the entire dictionary """
