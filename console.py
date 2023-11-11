@@ -124,7 +124,6 @@ class HBNBCommand(cmd.Cmd):
                             else:
                                 return
                             setattr(obj, args[2], values[1])
-                            print(obj)
                             storage.save()
 
     def emptyline(self):
