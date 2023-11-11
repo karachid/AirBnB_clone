@@ -2,7 +2,8 @@
 """ Defines FileStorage """
 import json
 from os import path
-from models import base_model 
+from models import base_model
+
 
 class FileStorage:
     """
