@@ -1,13 +1,18 @@
 #!/usr/bin/python3
 '''Define class HBNBCommand'''
 import cmd
-from models import BaseModel, storage
+from models import BaseModel, storage, User
 
 
 class HBNBCommand(cmd.Cmd):
     '''class HBNBCommand'''
 
     prompt = "(hbnb) "
+    class_list = ["BaseModel", "User"]
+
+    def complete_create(self, text, line, begidx, endidx):
+        """Custom tab completion for the 'create' command's argument"""
+        return [name for name in self.class_list if name.startswith(text)]
 
     def do_create(self, line):
         '''Creates a new instance of BaseModel, saves it (to the JSON file)
@@ -16,12 +21,17 @@ class HBNBCommand(cmd.Cmd):
             return
         if not line:
             print("** class name missing **")
-        elif line != "BaseModel":
+        elif line not in self.class_list:
             print("** class doesn't exist **")
         else:
-            b = BaseModel()
-            b.save()
-            print(b.id)
+            if line == "BaseModel":
+                b = BaseModel()
+                b.save()
+                print(b.id)
+            elif line == "User":
+                u = User()
+                u.save()
+                print(u.id)
 
     @staticmethod
     def make_dict():
@@ -40,7 +50,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not args:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in self.class_list:
             print("** class doesn't exist **")
         else:
             if len(args) == 1:
@@ -57,7 +67,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not args:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in self.class_list:
             print("** class doesn't exist **")
         else:
             if len(args) == 1:
@@ -68,15 +78,18 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
                 else:
                     dic = storage.all()
-                    del dic["BaseModel." + args[1]]
+                    if args[0] == "BaseModel":
+                        del dic["BaseModel." + args[1]]
+                    elif args[0] == "User":
+                        del dic["User." + args[1]]
                     storage.save()
 
     def do_all(self, arg):
         '''Prints all string representation of all instances based or not
         on the class name'''
-        if arg and arg != "BaseModel":
+        if arg and arg not in self.class_list:
             print("** class doesn't exist **")
-        elif not arg or arg == "BaseModel":
+        elif not arg or arg in self.class_list:
             dic = self.make_dict()
             list_obj = []
             for obj in dic.values():
@@ -89,7 +102,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not args:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in self.class_list:
             print("** class doesn't exist **")
         else:
             if len(args) == 1:
