@@ -105,11 +105,15 @@ class HBNBCommand(cmd.Cmd):
                         if len(args) == 3:
                             print("** value missing **")
                         else:
-                            obj = dic[arg[1]]
-                            print("obj: ", obj)
-                            print("attr: ", args[2])
-                            print("value: ", args[3])
-                            setattr(obj, args[2], args[3])
+                            obj = dic[args[1]]
+                            if args[3][0] == '"':
+                                values = args[3].split('"')
+                                value = values[1]
+                            else:
+                                value = args[3]
+                            setattr(obj, args[2], value)
+                            print(obj)
+                            storage.save()
 
     def emptyline(self):
         pass
