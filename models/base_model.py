@@ -32,8 +32,6 @@ class BaseModel:
             self.id = uuid.uuid4().hex
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            print("=====>")
-            print(self.to_dict())
             models.storage.new(self)
 
     def __str__(self):
@@ -47,12 +45,6 @@ class BaseModel:
         Saves an instance
         """
         self.updated_at = datetime.now()
-        print("Inside save ===>")
-        print(self.to_dict())
-        key = f"{self.__class__.__name__}.{self.id}"
-        print(f"key = {key}")
-        obj = models.storage.all()[key]
-        print(f"+++ {obj.to_dict()}")
         models.storage.save()
 
     def to_dict(self):

@@ -10,3 +10,17 @@ class User(BaseModel):
     password = ""
     first_name = ""
     last_name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initialize variables and methods"""
+        super().__init__(self, *args, **kwargs)
+        if kwargs and len(kwargs) != 0:
+            for k, v in kwargs.items():
+                if k == "email":
+                    self.email = v
+                elif k == "password":
+                    self.password = v
+                elif k == "first_name":
+                    self.first_name = v
+                elif k == "last_name":
+                    self.last_name = v
