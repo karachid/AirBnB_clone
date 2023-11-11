@@ -2,7 +2,8 @@
 """ Defines FileStorage """
 import json
 from os import path
-from models import base_model
+from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -11,6 +12,8 @@ class FileStorage:
     """
     __file_path = "file.json"
     __objects = dict()
+    className = {'BaseModel': BaseModel,
+                 'User': User}
 
     def all(self):
         """ Returns the entire dictionary """
@@ -36,4 +39,6 @@ class FileStorage:
             with open(self.__file_path, 'r', encoding='utf-8') as file:
                 s_objs = json.load(file)
                 for key, value in s_objs.items():
-                    self.__objects[key] = base_model.BaseModel(**value)
+                    # self.__objects[key] = base_model.BaseModel(**value)
+                    self.__objects[key] = FileStorage\
+                                        .className[key.split('.')[0]](**value)
