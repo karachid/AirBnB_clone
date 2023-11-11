@@ -4,6 +4,7 @@ from datetime import datetime
 import uuid
 import models
 
+
 class BaseModel:
     """
     Declares the BaseModel
@@ -19,11 +20,13 @@ class BaseModel:
                 if k == "id":
                     self.id = v
                 elif k == "created_at":
-                    self.created_at = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                    self.created_at =
+                    datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
                 elif k == "my_number":
                     self.my_number = v
                 elif k == "updated_at":
-                    self.updated_at = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                    self.updated_at =
+                    datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
                 elif k == "name":
                     self.name = v
         else:
@@ -50,11 +53,9 @@ class BaseModel:
         Converts an object to a dictionary
         """
         obj_dict = self.__dict__.copy()
-        
-        # Add __class__ key with the class name
+
         obj_dict['__class__'] = self.__class__.__name__
 
-        # Convert created_at and updated_at to ISO format strings
         obj_dict['created_at'] = self.created_at.isoformat()
         obj_dict['updated_at'] = self.updated_at.isoformat()
 
