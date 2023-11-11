@@ -17,7 +17,7 @@ class FileStorage:
         return self.__objects
 
     def new(self, obj):
-        """ Sets a new object in __objects 
+        """ Sets a new object in __objects
             Args:
                 obj: Represents the new obj to add to the dict
         """
