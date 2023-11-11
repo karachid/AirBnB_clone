@@ -108,10 +108,9 @@ class HBNBCommand(cmd.Cmd):
                             obj = dic[args[1]]
                             if args[3][0] == '"':
                                 values = args[3].split('"')
-                                value = values[1]
                             else:
-                                value = args[3]
-                            setattr(obj, args[2], value)
+                                return
+                            setattr(obj, args[2], values[1])
                             print(obj)
                             storage.save()
 
