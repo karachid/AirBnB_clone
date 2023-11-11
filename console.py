@@ -2,17 +2,21 @@
 '''Define class HBNBCommand'''
 import cmd
 from models import BaseModel, storage, User
+#from models import Review, State, City, Amenity, Place
 
 
 class HBNBCommand(cmd.Cmd):
     '''class HBNBCommand'''
 
     prompt = "(hbnb) "
-    class_list = ["BaseModel", "User"]
-
+    '''className = {"BaseModel": BaseModel, "User": User, "State": State,
+                 "City": City, "Amenity": Amenity, "Place": Place,
+                 "Review": Review}
+    '''
+    className = {"BaseModel": BaseModel, "User": User}
     def complete_create(self, text, line, begidx, endidx):
         """Custom tab completion for the 'create' command's argument"""
-        return [name for name in self.class_list if name.startswith(text)]
+        return [name for name in self.className if name.startswith(text)]
 
     def do_create(self, line):
         '''Creates a new instance of BaseModel, saves it (to the JSON file)
@@ -21,9 +25,13 @@ class HBNBCommand(cmd.Cmd):
             return
         if not line:
             print("** class name missing **")
-        elif line not in self.class_list:
+        elif line not in self.className:
             print("** class doesn't exist **")
         else:
+            b = self.className[line]()
+            b.save()
+            print(b.id)
+            '''
             if line == "BaseModel":
                 b = BaseModel()
                 b.save()
@@ -32,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
                 u = User()
                 u.save()
                 print(u.id)
-
+            '''
     @staticmethod
     def make_dict():
         '''
@@ -50,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not args:
             print("** class name missing **")
-        elif args[0] not in self.class_list:
+        elif args[0] not in self.className:
             print("** class doesn't exist **")
         else:
             if len(args) == 1:
@@ -67,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not args:
             print("** class name missing **")
-        elif args[0] not in self.class_list:
+        elif args[0] not in self.className:
             print("** class doesn't exist **")
         else:
             if len(args) == 1:
@@ -87,9 +95,9 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         '''Prints all string representation of all instances based or not
         on the class name'''
-        if arg and arg not in self.class_list:
+        if arg and arg not in self.className:
             print("** class doesn't exist **")
-        elif not arg or arg in self.class_list:
+        elif not arg or arg in self.className:
             dic = self.make_dict()
             list_obj = []
             for obj in dic.values():
@@ -102,7 +110,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not args:
             print("** class name missing **")
-        elif args[0] not in self.class_list:
+        elif args[0] not in self.className:
             print("** class doesn't exist **")
         else:
             if len(args) == 1:
