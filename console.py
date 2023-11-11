@@ -12,7 +12,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         '''Creates a new instance of BaseModel, saves it (to the JSON file)
         and prints the id'''
-        if len(line.split()) != 1:
+        if len(line.split()) > 1:
             return
         if not line:
             print("** class name missing **")
