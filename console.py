@@ -12,9 +12,7 @@ class HBNBCommand(cmd.Cmd):
     className = {"BaseModel": BaseModel, "User": User, "State": State,
                  "City": City, "Amenity": Amenity, "Place": Place,
                  "Review": Review}
-=======
 
->>>>>>> 19d49d726876d12bfa78d3572f0f5ec993b6fb7f
     def complete_create(self, text, line, begidx, endidx):
         """Custom tab completion for the 'create' command's argument"""
         return [name for name in self.className if name.startswith(text)]
@@ -32,9 +30,7 @@ class HBNBCommand(cmd.Cmd):
             b = self.className[line]()
             b.save()
             print(b.id)
-=======
 
->>>>>>> 19d49d726876d12bfa78d3572f0f5ec993b6fb7f
     @staticmethod
     def make_dict():
         '''
