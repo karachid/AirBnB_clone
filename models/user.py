@@ -12,7 +12,7 @@ class User(BaseModel):
     last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """initialize variables and methods"""
+        """initialize variables and methods of User"""
         super().__init__(self, *args, **kwargs)
         if kwargs and len(kwargs) != 0:
             for k, v in kwargs.items():
