@@ -20,16 +20,12 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         '''Creates a new instance of BaseModel, saves it (to the JSON file)
         and prints the id'''
-        if len(line.split()) > 1:
+        args = line.split()
+        if not className_errors(args, check_id=False):
             return
-        if not line:
-            print("** class name missing **")
-        elif line not in self.className:
-            print("** class doesn't exist **")
-        else:
-            b = self.className[line]()
-            b.save()
-            print(b.id)
+        obj = self.className[args[0]]()
+        obj.save()
+        print(obj.id)
 
     @staticmethod
     def make_dict():
@@ -46,28 +42,26 @@ class HBNBCommand(cmd.Cmd):
         '''Prints the string representation of an instance based on the class
         name and id'''
         args = line.split()
-        if not className_errors(args):
+        if not className_errors(args, check_id=True):
             return
-        if len(args) == 2:
-            dic = self.make_dict()
-            if args[1] not in dic:
-                print("** no instance found **")
-            else:
-                print(dic[args[1]])
+        dic = self.make_dict()
+        if args[1] not in dic:
+            print("** no instance found **")
+        else:
+            print(dic[args[1]])
 
     def do_destroy(self, line):
         '''Deletes an instance based on the class name and id'''
         args = line.split()
-        if not className_errors(args):
+        if not className_errors(args, check_id=True):
             return
-        if len(args) == 2:
-            dic = self.make_dict()
-            if args[1] not in dic:
-                print("** no instance found **")
-            else:
-                dic = storage.all()
-                del dic[args[0] + "." + args[1]]
-                storage.save()
+        dic = self.make_dict()
+        if args[1] not in dic:
+            print("** no instance found **")
+        else:
+            dic = storage.all()
+            del dic[args[0] + "." + args[1]]
+            storage.save()
 
     def do_all(self, arg):
         '''Prints all string representation of all instances based or not
@@ -89,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
         '''Updates an instance based on the class name and id by adding or
         updating attribute'''
         args = line.split()
-        if not className_errors(args):
+        if not className_errors(argsi, check_id=True):
             return
         dic = self.make_dict()
         if len(args) == 2:
@@ -122,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
 
-def className_errors(args):
+def className_errors(args, check_id):
     '''checks errors to run a validate classname'''
     if len(args) == 0:
         print("** class name missing **")
@@ -130,7 +124,7 @@ def className_errors(args):
     if args[0] not in HBNBCommand.className:
         print("** class doesn't exist **")
         return False
-    if len(args) == 1:
+    if len(args) == 1 and check_id:
         print("** instance id missing **")
         return False
     return True
