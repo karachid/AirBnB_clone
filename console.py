@@ -20,14 +20,16 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         '''Creates a new instance of BaseModel, saves it (to the JSON file)
         and prints the id'''
-        args = line.split()
-        if len(args) > 1:
+        if len(line.split()) > 1:
             return
-        if not className_errors(args, check_id=False):
-            return
-        obj = self.className[args[0]]()
-        obj.save()
-        print(obj.id)
+        if not line:
+            print("** class name missing **")
+        elif line not in self.className:
+            print("** class doesn't exist **")
+        else:
+            b = self.className[line]()
+            b.save()
+            print(b.id)
 
     @staticmethod
     def make_dict():
@@ -44,70 +46,82 @@ class HBNBCommand(cmd.Cmd):
         '''Prints the string representation of an instance based on the class
         name and id'''
         args = line.split()
-        if not className_errors(args, check_id=True):
-            return
-        if len(args) == 2:
-            dic = self.make_dict()
-            if args[1] not in dic:
-                print("** no instance found **")
-            else:
-                print(dic[args[1]])
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in self.className:
+            print("** class doesn't exist **")
+        else:
+            if len(args) == 1:
+                print("** instance id missing **")
+            elif args[1] and len(args) == 2:
+                dic = self.make_dict()
+                if args[1] not in dic:
+                    print("** no instance found **")
+                else:
+                    print(dic[args[1]])
 
     def do_destroy(self, line):
         '''Deletes an instance based on the class name and id'''
         args = line.split()
-        if not className_errors(args, check_id=True):
-            return
-        dic = self.make_dict()
-        if len(args) == 2:
-            if args[1] not in dic:
-                print("** no instance found **")
-            else:
-                dic = storage.all()
-                del dic[args[0] + "." + args[1]]
-                storage.save()
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in self.className:
+            print("** class doesn't exist **")
+        else:
+            if len(args) == 1:
+                print("** instance id missing **")
+            elif args[1] and len(args) == 2:
+                dic = self.make_dict()
+                if args[1] not in dic:
+                    print("** no instance found **")
+                else:
+                    dic = storage.all()
+                    del dic[args[0] + "." + args[1]]
+                    storage.save()
 
     def do_all(self, arg):
         '''Prints all string representation of all instances based or not
         on the class name'''
         args = arg.split()
         all_objs = storage.all()
-        if len(args) > 1:
-            return
         if len(args) < 1:
             print(["{}".format(str(v)) for _, v in all_objs.items()])
             return
         if args[0] not in self.className:
             print("** class doesn't exist **")
         else:
-            for _, v in all_objs.items():
-                if type(v).__name__ == args[0]:
-                    print(["{}".format(str(v))])
+            print(["{}".format(str(v))
+                  for _, v in all_objs.items() if type(v).__name__ == args[0]])
 
     def do_update(self, line):
         '''Updates an instance based on the class name and id by adding or
         updating attribute'''
         args = line.split()
-        if not className_errors(argsi, check_id=True):
-            return
-        dic = self.make_dict()
-        if len(args) == 2:
-            if args[1] not in dic:
-                print("** no instance found **")
-            else:
-                print("** attribute name missing **")
-            return
-        if len(args) == 3:
-            if len(args) == 3:
-                print("** value missing **")
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in self.className:
+            print("** class doesn't exist **")
         else:
-            obj = dic[args[1]]
-            if args[3][0] == '"':
-                values = args[3].split('"')
-            else:
-                return
-            setattr(obj, args[2], values[1])
-            storage.save()
+            if len(args) == 1:
+                print("** instance id missing **")
+            elif args[1] and len(args) >= 2:
+                dic = self.make_dict()
+                if args[1] not in dic:
+                    print("** no instance found **")
+                else:
+                    if len(args) == 2:
+                        print("** attribute name missing **")
+                    else:
+                        if len(args) == 3:
+                            print("** value missing **")
+                        else:
+                            obj = dic[args[1]]
+                            if args[3][0] == '"':
+                                values = args[3].split('"')
+                            else:
+                                return
+                            setattr(obj, args[2], values[1])
+                            storage.save()
 
     def emptyline(self):
         pass
@@ -119,20 +133,6 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, line):
         '''Quit command to exit the program\n'''
         return True
-
-
-def className_errors(args, check_id):
-    '''checks errors to run a validate classname'''
-    if len(args) == 0:
-        print("** class name missing **")
-        return False
-    if args[0] not in HBNBCommand.className:
-        print("** class doesn't exist **")
-        return False
-    if len(args) == 1 and check_id:
-        print("** instance id missing **")
-        return False
-    return True
 
 
 if __name__ == '__main__':
