@@ -8,7 +8,7 @@ class City(BaseModel):
 
     state_id = ""
     name = ""
-
+    '''
     def __init__(self, *args, **kwargs):
         """ Initializes variables of City """
         super().__init__(self, *args, **kwargs)
@@ -18,3 +18,4 @@ class City(BaseModel):
                     self.state_id = v
                 elif k == "name":
                     self.name = v
+    '''

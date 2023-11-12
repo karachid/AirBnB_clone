@@ -7,7 +7,7 @@ class Amenity(BaseModel):
     """ Declares Amenity class  """
 
     name = ""
-
+    '''
     def __init__(self, *args, **kwargs):
         """initialize variables of Amenity"""
         super().__init__(self, *args, **kwargs)
@@ -15,3 +15,4 @@ class Amenity(BaseModel):
             for k, v in kwargs.items():
                 if k == "name":
                     self.name = v
+    '''

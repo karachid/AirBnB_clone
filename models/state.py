@@ -7,7 +7,7 @@ class State(BaseModel):
     """ Declares State class """
 
     name = ""
-
+    '''
     def __init__(self, *args, **kwargs):
         """ Initializes variables of State """
         super().__init__(self, *args, **kwargs)
@@ -15,3 +15,4 @@ class State(BaseModel):
             for k, v in kwargs.items():
                 if k == "name":
                     self.name = v
+    '''

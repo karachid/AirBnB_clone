@@ -17,7 +17,7 @@ class Place(BaseModel):
     latitude = 0.0
     longitude = 0.0
     amenity_ids = []
-
+    '''
     def __init__(self, *args, **kwargs):
         """initialize variables and methods of User"""
         super().__init__(self, *args, **kwargs)
@@ -45,3 +45,4 @@ class Place(BaseModel):
                     self.longitude = v
                 elif k == "amenity_id":
                     self.amenity_ids = v
+    '''
