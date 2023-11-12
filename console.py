@@ -83,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             for _, v in all_objs.items():
                 if type(v).__name__ == args[0]:
-                    print("{}".format(str(v)))
+                    print(["{}".format(str(v))])
 
     def do_update(self, line):
         '''Updates an instance based on the class name and id by adding or
