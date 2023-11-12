@@ -21,6 +21,8 @@ class HBNBCommand(cmd.Cmd):
         '''Creates a new instance of BaseModel, saves it (to the JSON file)
         and prints the id'''
         args = line.split()
+        if len(args) > 1:
+            return
         if not className_errors(args, check_id=False):
             return
         obj = self.className[args[0]]()
@@ -44,11 +46,12 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not className_errors(args, check_id=True):
             return
-        dic = self.make_dict()
-        if args[1] not in dic:
-            print("** no instance found **")
-        else:
-            print(dic[args[1]])
+        if len(args) == 2:
+            dic = self.make_dict()
+            if args[1] not in dic:
+                print("** no instance found **")
+            else:
+                print(dic[args[1]])
 
     def do_destroy(self, line):
         '''Deletes an instance based on the class name and id'''
@@ -56,19 +59,21 @@ class HBNBCommand(cmd.Cmd):
         if not className_errors(args, check_id=True):
             return
         dic = self.make_dict()
-        if args[1] not in dic:
-            print("** no instance found **")
-        else:
-            dic = storage.all()
-            del dic[args[0] + "." + args[1]]
-            storage.save()
+        if len(args) == 2:
+            if args[1] not in dic:
+                print("** no instance found **")
+            else:
+                dic = storage.all()
+                del dic[args[0] + "." + args[1]]
+                storage.save()
 
     def do_all(self, arg):
         '''Prints all string representation of all instances based or not
         on the class name'''
         args = arg.split()
         all_objs = storage.all()
-
+        if len(args) > 1:
+            return
         if len(args) < 1:
             print(["{}".format(str(v)) for _, v in all_objs.items()])
             return
