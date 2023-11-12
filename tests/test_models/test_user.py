@@ -15,7 +15,7 @@ from models.engine.file_storage import FileStorage
 
 
 class TestUser(unittest.TestCase):
-    """ Declares variables and methods of TestCase """
+    """ Declares TestUser class """
 
     def setUp(self):
         """
