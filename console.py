@@ -112,12 +112,24 @@ class HBNBCommand(cmd.Cmd):
                  "Place", "Review"]
 
         commands = {"all()": self.do_all,
+                    "count()": self.do_count,
                     "show()": self.do_show,
                     "destroy()": self.do_destroy,
                     "update()": self.do_update}
         args = line.split('.')
         if args[0] in names and args[1] in commands:
             commands[args[1]](args[0])
+
+    def do_count(self, line):
+        ''' retrieve the number of instances of a class'''
+        all_objs = storage.all()
+        args = line.split()
+        count = 0
+        for key in all_objs.keys():
+            k = key.split('.')
+            if k[0] == args[0]:
+                count += 1
+        print(count)
 
     def emptyline(self):
         pass
