@@ -106,6 +106,19 @@ class HBNBCommand(cmd.Cmd):
                         setattr(obj, args[2], values[1])
                         storage.save()
 
+    def default(self, line):
+        '''execute custom command'''
+        names = ["BaseModel", "User", "State", "City", "Amenity",
+                 "Place", "Review"]
+
+        commands = {"all()": self.do_all,
+                    "show()": self.do_show,
+                    "destroy()": self.do_destroy,
+                    "update()": self.do_update}
+        args = line.split('.')
+        if args[0] in names and args[1] in commands:
+            commands[args[1]](args[0])
+
     def emptyline(self):
         pass
 
