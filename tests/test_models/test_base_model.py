@@ -15,7 +15,7 @@ from models.engine.file_storage import FileStorage
 
 
 class TestBaseModel(unittest.TestCase):
-    """define variables and methods"""
+    """ Declares TestBaseModel Class """
 
     def setUp(self):
         """

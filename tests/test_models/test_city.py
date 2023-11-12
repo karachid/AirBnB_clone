@@ -15,7 +15,7 @@ from models.engine.file_storage import FileStorage
 
 
 class TestCity(unittest.TestCase):
-    """define variables and methods"""
+    """ Declares TestCity Class """
 
     def setUp(self):
         """

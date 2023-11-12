@@ -19,7 +19,7 @@ from models.engine.file_storage import FileStorage
 
 
 class TestAmenity(unittest.TestCase):
-    """define variables and methods"""
+    """ Declares TestAmenity Class """
 
     def setUp(self):
         """
