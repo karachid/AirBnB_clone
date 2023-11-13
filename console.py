@@ -48,11 +48,12 @@ class HBNBCommand(cmd.Cmd):
         if not className_errors(args, check_id=True):
             return
         if args[1] and len(args) == 2:
-            dic = self.make_dict()
-            if args[1] not in dic:
+            dic = storage.all()
+            a = args[0] + "." + args[1]
+            if a not in dic:
                 print("** no instance found **")
             else:
-                print(dic[args[1]])
+                print(dic[a])
 
     def do_destroy(self, line):
         '''Deletes an instance based on the class name and id'''
@@ -60,12 +61,12 @@ class HBNBCommand(cmd.Cmd):
         if not className_errors(args, check_id=True):
             return
         if args[1] and len(args) == 2:
-            dic = self.make_dict()
-            if args[1] not in dic:
+            dic = storage.all()
+            a = args[0] + "." + args[1]
+            if a not in dic:
                 print("** no instance found **")
             else:
-                dic = storage.all()
-                del dic[args[0] + "." + args[1]]
+                del dic[a]
                 storage.save()
 
     def do_all(self, arg):
