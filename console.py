@@ -3,6 +3,7 @@
 import cmd
 from models import BaseModel, storage, User
 from models import Review, State, City, Amenity, Place
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -111,14 +112,28 @@ class HBNBCommand(cmd.Cmd):
         names = ["BaseModel", "User", "State", "City", "Amenity",
                  "Place", "Review"]
 
-        commands = {"all()": self.do_all,
-                    "count()": self.do_count,
-                    "show()": self.do_show,
-                    "destroy()": self.do_destroy,
-                    "update()": self.do_update}
-        args = line.split('.')
+        commands = {"all": self.do_all,
+                    "count": self.do_count,
+                    "show": self.do_show,
+                    "destroy": self.do_destroy,
+                    "update": self.do_update}
+
+        args = re.match(r'(\w+).(\w+)\((.*)\)$', line)
+        if not args:
+            return
+        args = args.groups()
         if args[0] in names and args[1] in commands:
-            commands[args[1]](args[0])
+            if args[1] in ["all", "count"]:
+                commands[args[1]](args[0])
+            elif args[1] in ["show", "destroy"]:
+                commands[args[1]](args[0] + " " + args[2].replace('"', ''))
+            elif args[1] == "update":
+                a = re.match(r'"(.*)", "(.*)", (.*)', args[2])
+                if not a:
+                    return
+                a = a.groups()
+                s = a[0] + " " + a[1] + " " + a[2]
+                commands[args[1]](args[0] + " " + s)
 
     def do_count(self, line):
         ''' retrieve the number of instances of a class'''
